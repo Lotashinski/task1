@@ -39,7 +39,7 @@ public class App {
     public static void main(String[] args) {
         try {
             rootLogger.info("App start");
-            AbstractCollector collector = new PriceListCollector(message -> {
+            AbstractCollector collector = new Collector(message -> {
                 StringBuffer buffer = new StringBuffer();
                 buffer.append(String.format("%s%s\n", message.getMain(), message.getVariables().size() > 0 ? ":" : ""));
                 for (int i = 0; i < message.getVariables().size(); ++i)

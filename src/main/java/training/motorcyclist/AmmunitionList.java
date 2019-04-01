@@ -1,5 +1,8 @@
 package training.motorcyclist;
 
+import training.ammunition.Ammunition;
+import training.collector.motorcyclist.PriceSelector;
+
 public interface AmmunitionList {
     PriceList sortByName();
 

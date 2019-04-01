@@ -70,8 +70,9 @@ public class PriceListCollector extends AbstractCollector {
                         priceList.add(ammunition);
                         break;
                     case 4:
+                        priceSelector.setPriceList(priceList);
                         priceSelector.conversationStart();
-                        priceSelector.conversationStart();
+
                         break;
                 }
             } while (answer >= 0 && answer < meny.length - 1);

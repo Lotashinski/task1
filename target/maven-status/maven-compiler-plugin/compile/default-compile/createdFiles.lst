@@ -23,6 +23,7 @@ training/motorcyclist/Motorcyclist.class
 training/ammunition/protection/DegreeOfProtection.class
 training/motorcyclist/AmmunitionList.class
 training/collector/Message.class
+training/collector/motorcyclist/MotorcuclistCollector.class
 training/collector/ammunition/AccessoryCreate.class
 training/motorcyclist/AmmunitionConflictException.class
 training/ammunition/ammunition/HamletType$3.class

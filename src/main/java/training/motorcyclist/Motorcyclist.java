@@ -37,7 +37,7 @@ public class Motorcyclist implements AmmunitionList {
     }
 
     public void setBody(Jacket body) throws AmmunitionConflictException {
-        if (body.isOveralls() && pants!= null)
+        if (body != null && body.isOveralls() && pants != null)
             throw new AmmunitionConflictException("included overalls", body, getPants());
         this.body = body;
     }

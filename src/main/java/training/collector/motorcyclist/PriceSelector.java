@@ -8,7 +8,6 @@ import training.collector.Message;
 import training.collector.ValueException;
 import training.motorcyclist.PriceList;
 
-import java.nio.channels.Selector;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,11 +20,15 @@ public class PriceSelector extends AbstractCollector {
 
     private static Ammunition ammo;
 
+    public PriceList getPriceList() {
+        return priceList;
+    }
+
     public static Ammunition getAmmo() {
         return ammo;
     }
 
-    private String[] meny = {
+    private String[] menu = {
             "sort by name", // 0
             "filter by price", // 1
             "sort by weight", //2
@@ -42,14 +45,21 @@ public class PriceSelector extends AbstractCollector {
                 .getValue() : "-");
     }
 
+    public void setPriceList(PriceList priceList) {
+        this.priceList = priceList;
+    }
+
     @Override
     public void conversationStart() throws ValueException {
         int answer;
         try {
             do {
-                List<String> vars = new LinkedList<String>();
-                if (!vars.addAll(Arrays.stream(meny).collect(Collectors.toList())) &&
-                        !vars.addAll(priceList.stream().map(PriceSelector::getString).collect(Collectors.toList()))) {
+                List<String> vars = new LinkedList<>();
+                if (!(
+                        vars.addAll(Arrays.stream(menu).collect(Collectors.toList())) &&
+                                vars.addAll(priceList.stream().map(PriceSelector::getString).collect(Collectors.toList()))
+                )
+                ) {
                     logger.error("menu create error");
                 }
 
@@ -82,7 +92,7 @@ public class PriceSelector extends AbstractCollector {
                 }
                 if (answer > 3)
                     ammo = priceList.get(answer - 4);
-            } while (answer >= 0 && answer < meny.length - 1);
+            } while (answer >= 0 && answer < menu.length - 1);
         } catch (ValueException e) {
             say(new Message("input error. Returned"));
         }
