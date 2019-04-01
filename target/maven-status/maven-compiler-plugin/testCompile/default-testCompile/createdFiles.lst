@@ -1,0 +1,8 @@
+training/collector/EnumSelectorTest.class
+training/collector/ammunition/JacketCreateTest.class
+training/collector/protection/DegreOfProtectionSelectorTest.class
+training/collector/ammunition/PantsCreateTest.class
+training/collector/AbstractCollectorTest.class
+training/motorcyclist/PriceListTest.class
+training/AppTest.class
+training/motorcyclist/MotorcyclistTest.class

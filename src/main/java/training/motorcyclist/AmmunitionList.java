@@ -1,6 +1,6 @@
 package training.motorcyclist;
 
-public interface AmmunutionList {
+public interface AmmunitionList {
     PriceList sortByName();
 
     PriceList sortByPrice();

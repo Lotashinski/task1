@@ -1,4 +1,4 @@
-package training.ammunition.jacket;
+package training.ammunition.ammunition;
 
 public enum HamletType {
     FULL_FACE {

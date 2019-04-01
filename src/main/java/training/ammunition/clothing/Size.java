@@ -6,5 +6,5 @@ public enum Size {
     EXTRA_SSHORT,
     LARGE,
     MEDIUM,
-    SSHORT,
+    SSHORT;
 }

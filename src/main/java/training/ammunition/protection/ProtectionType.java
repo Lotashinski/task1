@@ -1,4 +1,9 @@
 package training.ammunition.protection;
 
-public class ProtectionType {
+public enum ProtectionType {
+    BODY,
+    HEAD,
+    LEGS,
+    ARMS,
+    COMBINIED,
 }
