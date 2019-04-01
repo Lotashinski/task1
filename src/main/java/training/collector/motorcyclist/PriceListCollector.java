@@ -12,7 +12,6 @@ import training.collector.ammunition.PantsCreate;
 import training.motorcyclist.PriceList;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
