@@ -4,10 +4,12 @@
 /home/alexander/work/java/task1/src/main/java/training/collector/ValueException.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/protection/Protection.java
 /home/alexander/work/java/task1/src/main/java/training/motorcyclist/Motorcyclist.java
+/home/alexander/work/java/task1/src/main/java/training/collector/motorcyclist/PriceListCollector.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/WrongRangeException.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/clothing/Size.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/ammunition/Accessory.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/ammunition/Jacket.java
+/home/alexander/work/java/task1/src/main/java/training/collector/motorcyclist/PriceSelector.java
 /home/alexander/work/java/task1/src/main/java/training/motorcyclist/AmmunitionConflictException.java
 /home/alexander/work/java/task1/src/main/java/training/ammunition/clothing/Gender.java
 /home/alexander/work/java/task1/src/main/java/training/collector/AbstractCollector.java
