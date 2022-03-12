@@ -7,12 +7,10 @@ import com.github.lotashinski.entity.CarSessionEntity;
 import com.github.lotashinski.entity.UserEntity;
 import com.github.lotashinski.service.json.JsonConverter;
 import com.github.lotashinski.service.paramconverter.LocalDataConverter;
-import com.github.lotashinski.service.paramconverter.Pagination;
 import com.github.lotashinski.service.res.CarService;
 import com.github.lotashinski.service.res.ServiceFactory;
 import com.github.lotashinski.util.ServletConstants;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,19 +18,27 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "BookCarServlet", urlPatterns = "/cars/book")
 public final class BookCarServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServiceFactory serviceFactory = (ServiceFactory) req.getAttribute(ServletConstants.SERVICE_FACTORY);
         UserEntity user = (UserEntity) req.getAttribute(ServletConstants.USER);
-        List<CarSessionEntity> sessions = user.getCarSessions();
+
+        CarService carService = serviceFactory.getCarService();
+
+        List<CarSessionEntity> sessions = carService.loadByUser(user);
+        List<CarSessionDto> sessionDtoList = sessions.stream()
+                .map(BookCarServlet::convertSessionToDto)
+                .collect(Collectors.toList());
+        JsonConverter.toJsonResponse(sessionDtoList, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         ServiceFactory serviceFactory = (ServiceFactory) req.getAttribute(ServletConstants.SERVICE_FACTORY);
         UserEntity user = (UserEntity) req.getAttribute(ServletConstants.USER);
         CarService carService = serviceFactory.getCarService();

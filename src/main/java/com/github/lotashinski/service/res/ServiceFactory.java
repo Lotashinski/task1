@@ -1,6 +1,7 @@
 package com.github.lotashinski.service.res;
 
 import com.github.lotashinski.repository.RepositoryFactory;
+import com.github.lotashinski.service.res.impl.CarReportServiceImpl;
 import com.github.lotashinski.service.res.impl.CarServiceImpl;
 import com.github.lotashinski.service.res.impl.UserServiceImpl;
 import org.apache.logging.log4j.LogManager;
@@ -12,6 +13,7 @@ public final class ServiceFactory {
 
     private UserService userService;
     private CarService carService;
+    private CarRepostService carRepostService;
 
     public ServiceFactory(RepositoryFactory repositoryFactory) {
         this.repositoryFactory = repositoryFactory;
@@ -31,5 +33,13 @@ public final class ServiceFactory {
             carService = new CarServiceImpl(repositoryFactory);
         }
         return carService;
+    }
+
+    public CarRepostService getCarRepostService(){
+        if (null == carRepostService){
+            logger.debug("Create CarReportService");
+            carRepostService = new CarReportServiceImpl(repositoryFactory);
+        }
+        return carRepostService;
     }
 }

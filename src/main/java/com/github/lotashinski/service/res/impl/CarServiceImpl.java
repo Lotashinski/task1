@@ -2,6 +2,7 @@ package com.github.lotashinski.service.res.impl;
 
 import com.github.lotashinski.entity.CarEntity;
 import com.github.lotashinski.entity.CarSessionEntity;
+import com.github.lotashinski.entity.UserEntity;
 import com.github.lotashinski.repository.CarRepository;
 import com.github.lotashinski.repository.CarSessionRepository;
 import com.github.lotashinski.repository.RepositoryFactory;
@@ -96,6 +97,12 @@ public final class CarServiceImpl implements com.github.lotashinski.service.res.
         transaction.commit();
 
         return carSession;
+    }
+
+    @Override
+    public List<CarSessionEntity> loadByUser(UserEntity user) {
+        CarSessionRepository carSessionRepository = getCarSessionRepository();
+        return carSessionRepository.loadByUser(user);
     }
 
     private CarSessionRepository getCarSessionRepository() {
