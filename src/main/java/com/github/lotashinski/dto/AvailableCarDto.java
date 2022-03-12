@@ -1,16 +1,17 @@
 package com.github.lotashinski.dto;
 
-public final class CarDto {
-    private Long id;
+public final class AvailableCarDto {
+    private long id;
     private String model;
     private String registrationNumber;
-    private Long costPerDay;
+    private long costPerDay;
+    private long costPerPeriod;
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -30,11 +31,19 @@ public final class CarDto {
         this.registrationNumber = registrationNumber;
     }
 
-    public Long getCostPerDay() {
+    public long getCostPerDay() {
         return costPerDay;
     }
 
-    public void setCostPerDay(Long costPerDay) {
+    public void setCostPerDay(long costPerDay) {
         this.costPerDay = costPerDay;
+    }
+
+    public long getCostPerPeriod() {
+        return costPerPeriod;
+    }
+
+    public void setCostPerPeriod(long costPerPeriod) {
+        this.costPerPeriod = costPerPeriod;
     }
 }

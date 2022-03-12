@@ -25,6 +25,9 @@ public class CarSessionEntity {
     private LocalDate endAt;
 
     @Basic
+    private LocalDate serviceEnd;
+
+    @Basic
     private Long price;
 
 
@@ -74,5 +77,13 @@ public class CarSessionEntity {
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public LocalDate getServiceEnd() {
+        return serviceEnd;
+    }
+
+    public void setServiceEnd(LocalDate serviceEnd) {
+        this.serviceEnd = serviceEnd;
     }
 }

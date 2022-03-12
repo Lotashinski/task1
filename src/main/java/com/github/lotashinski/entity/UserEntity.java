@@ -68,4 +68,12 @@ public class UserEntity {
             roles.add(role);
         }
     }
+
+    public List<CarSessionEntity> getCarSessions() {
+        return carSessions;
+    }
+
+    public void setCarSessions(List<CarSessionEntity> carSessions) {
+        this.carSessions = carSessions;
+    }
 }

@@ -28,7 +28,7 @@ public class CarEntity {
 
 
     @OneToMany(mappedBy = "car")
-    private List<CarSessionEntity> cars = new ArrayList<>();
+    private List<CarSessionEntity> carsSessions = new ArrayList<>();
 
 
     public Long getId() {
@@ -63,12 +63,12 @@ public class CarEntity {
         this.serviceDays = serviceDays;
     }
 
-    public List<CarSessionEntity> getCars() {
-        return cars;
+    public List<CarSessionEntity> getCarsSessions() {
+        return carsSessions;
     }
 
-    public void setCars(List<CarSessionEntity> cars) {
-        this.cars = cars;
+    public void setCarsSessions(List<CarSessionEntity> cars) {
+        this.carsSessions = cars;
     }
 
     public Long getCostPerDay() {
