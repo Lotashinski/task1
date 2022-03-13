@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "ca16e322-b346-4c78-9dda-7774e36ac568",
+		"name": "task1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "registrations",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"user2\",\n    \"password\": \"secret\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/users/registration",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"registration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"login\": \"user2\",\n    \"password\": \"secret\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/users/login",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/users/me",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/users/logout",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "cars",
+			"item": [
+				{
+					"name": "cars",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cars?limit=10&offset=0",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cars"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "available",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cars/available?start=13-03-2022&end=8-03-2022",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cars",
+								"available"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "13-03-2022"
+								},
+								{
+									"key": "end",
+									"value": "8-03-2022"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cars/book?start=16-03-2022&end=16-03-2022&car=1",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cars",
+								"book"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "16-03-2022"
+								},
+								{
+									"key": "end",
+									"value": "16-03-2022"
+								},
+								{
+									"key": "car",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/cars/book",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"cars",
+								"book"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/admin/cars/report?start=1-05-2022&end=9-05-2022",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"admin",
+								"cars",
+								"report"
+							],
+							"query": [
+								{
+									"key": "start",
+									"value": "1-05-2022"
+								},
+								{
+									"key": "end",
+									"value": "9-05-2022"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "openapi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{server}}/openapi.json",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"openapi.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server",
+			"value": "http://localhost:8080/task1_war_exploded/",
+			"type": "string"
+		}
+	]
+}
