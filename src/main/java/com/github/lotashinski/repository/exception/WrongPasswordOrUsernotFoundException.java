@@ -2,8 +2,8 @@ package com.github.lotashinski.repository.exception;
 
 import com.github.lotashinski.exception.HttpException;
 
-public final class WrongPasswordException extends HttpException {
-    public WrongPasswordException(String message) {
+public final class WrongPasswordOrUsernotFoundException extends HttpException {
+    public WrongPasswordOrUsernotFoundException(String message) {
         super(message);
     }
 

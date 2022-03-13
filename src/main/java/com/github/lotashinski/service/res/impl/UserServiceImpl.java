@@ -6,7 +6,7 @@ import com.github.lotashinski.repository.RepositoryFactory;
 import com.github.lotashinski.repository.UserRepository;
 import com.github.lotashinski.repository.exception.LoginAlreadyExistException;
 import com.github.lotashinski.repository.exception.NotFoundException;
-import com.github.lotashinski.repository.exception.WrongPasswordException;
+import com.github.lotashinski.repository.exception.WrongPasswordOrUsernotFoundException;
 import com.github.lotashinski.service.password.PasswordEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -61,12 +61,12 @@ public final class UserServiceImpl implements com.github.lotashinski.service.res
         Optional<UserEntity> optionalUserEntity = userRepository.getByLogin(login);
 
         String exceptionMessage = "User \"" + login + "\" not found or wrong password";
-        UserEntity user = optionalUserEntity.orElseThrow(() -> new NotFoundException(exceptionMessage));
+        UserEntity user = optionalUserEntity.orElseThrow(() -> new WrongPasswordOrUsernotFoundException(exceptionMessage));
 
         logger.debug("Check password");
         boolean isVerified = PasswordEncoder.verify(user.getPassword(), password);
         if (!isVerified) {
-            throw new WrongPasswordException(exceptionMessage);
+            throw new WrongPasswordOrUsernotFoundException(exceptionMessage);
         }
         return user;
     }

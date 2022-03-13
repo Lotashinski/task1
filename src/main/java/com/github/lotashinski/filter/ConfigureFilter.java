@@ -71,24 +71,32 @@ public final class ConfigureFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (HttpException he) {
             response.setStatus(he.getStatusCode());
+
             logger.error("Request exception", he);
             logger.debug("Configure exception response");
             ExceptionDto eDto = configureExceptionMessage(he);
 
-            eDto.setStatus(he.getStatusCode());
             JsonConverter.toJsonResponse(eDto, response);
-
         } catch (Exception e) {
+            response.setStatus(500);
+
             logger.error("Request exception", e);
             logger.debug("Configure exception response");
             ExceptionDto eDto = configureExceptionMessage(e);
+
             JsonConverter.toJsonResponse(eDto, response);
-            response.setStatus(eDto.getStatus());
         }
     }
 
     @Override
     public void destroy() {
+    }
+
+    private static ExceptionDto configureExceptionMessage(HttpException e){
+        ExceptionDto eDto = new ExceptionDto();
+        eDto.setMessage(e.getMessage());
+        eDto.setStatus(e.getStatusCode());
+        return eDto;
     }
 
     private static ExceptionDto configureExceptionMessage(Exception e) {
