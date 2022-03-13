@@ -1,4 +1,5 @@
 ## Dependencies
+_____
 - java 8+
 - postgresql 10+
 - maven 3.6
