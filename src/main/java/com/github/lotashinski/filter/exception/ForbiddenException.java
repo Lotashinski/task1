@@ -1,7 +1,14 @@
 package com.github.lotashinski.filter.exception;
 
-public final class ForbiddenException extends RuntimeException{
+import com.github.lotashinski.exception.HttpException;
+
+public final class ForbiddenException extends HttpException {
     public ForbiddenException(String message) {
         super(message);
+    }
+
+    @Override
+    public int getStatusCode() {
+        return 403;
     }
 }

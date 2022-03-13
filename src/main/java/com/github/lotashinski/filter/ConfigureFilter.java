@@ -3,6 +3,7 @@ package com.github.lotashinski.filter;
 import com.github.lotashinski.dto.ExceptionDto;
 import com.github.lotashinski.entity.RolesEnum;
 import com.github.lotashinski.entity.UserEntity;
+import com.github.lotashinski.exception.HttpException;
 import com.github.lotashinski.filter.exception.ForbiddenException;
 import com.github.lotashinski.repository.RepositoryFactory;
 import com.github.lotashinski.service.json.JsonConverter;
@@ -56,21 +57,29 @@ public final class ConfigureFilter implements Filter {
                 logger.debug("Set attribute " + ServletConstants.USER);
 
                 boolean isAdminResource = isAdminResource(servletPath);
-                if (isAdminResource && !user.getRoles().contains(RolesEnum.ROLE_ADMIN)){
+                if (isAdminResource && !user.getRoles().contains(RolesEnum.ROLE_ADMIN)) {
                     throw new ForbiddenException("Only for admin");
                 }
                 servletRequest.setAttribute(ServletConstants.USER, user);
-            }else {
+            } else {
                 logger.debug("HttpSession user not found. Check access for anon anonymous");
-                if (!servletPath.equals("/users/login") && !servletPath.equals("/users/registration")){
+                if (!servletPath.equals("/users/login") && !servletPath.equals("/users/registration")) {
                     throw new ForbiddenException("Forbidden");
                 }
             }
 
             filterChain.doFilter(servletRequest, servletResponse);
+        } catch (HttpException he) {
+            response.setStatus(he.getStatusCode());
+            logger.error("Request exception", he);
+            logger.debug("Configure exception response");
+            ExceptionDto eDto = configureExceptionMessage(he);
+
+            eDto.setStatus(he.getStatusCode());
+            JsonConverter.toJsonResponse(eDto, response);
+
         } catch (Exception e) {
             logger.error("Request exception", e);
-
             logger.debug("Configure exception response");
             ExceptionDto eDto = configureExceptionMessage(e);
             JsonConverter.toJsonResponse(eDto, response);
@@ -89,7 +98,7 @@ public final class ConfigureFilter implements Filter {
         return eDto;
     }
 
-    private boolean isAdminResource(String path){
+    private boolean isAdminResource(String path) {
         return path.contains("admin");
     }
 }

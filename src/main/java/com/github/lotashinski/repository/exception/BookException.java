@@ -1,7 +1,14 @@
 package com.github.lotashinski.repository.exception;
 
-public final class BookException extends RuntimeException {
+import com.github.lotashinski.exception.HttpException;
+
+public final class BookException extends HttpException {
     public BookException(String message) {
         super(message);
+    }
+
+    @Override
+    public int getStatusCode() {
+        return 400;
     }
 }
