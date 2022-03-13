@@ -9,17 +9,22 @@ import com.github.lotashinski.repository.RepositoryFactory;
 import com.github.lotashinski.repository.exception.BookException;
 import com.github.lotashinski.repository.exception.NotFoundException;
 import com.github.lotashinski.service.exception.LogicException;
+import com.github.lotashinski.service.property.PropertyReader;
 import com.github.lotashinski.service.res.AvailableCar;
 import com.github.lotashinski.service.res.AvailableCarSet;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class CarServiceImpl implements com.github.lotashinski.service.res.CarService {
+    private static final String MAX_BOOK_DAYS_KEY = "MAX_BOOK_DAYS";
+
+    private Integer maxBookDays;
     private final RepositoryFactory repositoryFactory;
     private CarRepository carRepository;
     private CarSessionRepository carSessionRepository;
@@ -50,11 +55,17 @@ public final class CarServiceImpl implements com.github.lotashinski.service.res.
     public AvailableCarSet getAvailablePaginated(LocalDate startAt, LocalDate endAt, int limit, int offset) {
         CarRepository carRepository = getCarRepository();
         List<CarEntity> cars = carRepository.getAvailablePerDateTime(startAt, endAt, limit, offset);
-        int days = (int) ChronoUnit.DAYS.between(startAt, endAt) + 1;
-        if (days < 1) {
-            throw new LogicException("End date is less than start date");
+
+        LocalDate now = LocalDate.now();
+        if (startAt.isBefore(now)){
+            throw new BookException("The entered startDate is less than the current one");
+        }
+        if (endAt.isBefore(startAt)){
+            throw new BookException("End date is less than start date");
         }
 
+        int days = (int) ChronoUnit.DAYS.between(startAt, endAt) + 1;
+        checkPeriod(startAt, endAt);
         long availableCarsCount = carRepository.availableCount(startAt, endAt);
         List<AvailableCar> availableCars = cars.stream()
                 .map(car -> calculatePeriodPrice(car, days))
@@ -71,15 +82,10 @@ public final class CarServiceImpl implements com.github.lotashinski.service.res.
 
     @Override
     public CarSessionEntity bookCar(CarSessionEntity carSession) {
-        CarRepository carRepository = getCarRepository();
+        checkOrThrowSession(carSession);
 
         CarEntity car = carSession.getCar();
         LocalDate sessionEndAt = carSession.getEndAt();
-        LocalDate sessionStartAt = carSession.getStartAt();
-        boolean isAvailable = carRepository.isAvailable(car, sessionStartAt, sessionEndAt);
-        if (!isAvailable){
-            throw new BookException("Car is not available");
-        }
 
         int serviceDays = car.getServiceDays();
         LocalDate serviceEnd = sessionEndAt.plusDays(serviceDays);
@@ -103,6 +109,55 @@ public final class CarServiceImpl implements com.github.lotashinski.service.res.
     public List<CarSessionEntity> loadByUser(UserEntity user) {
         CarSessionRepository carSessionRepository = getCarSessionRepository();
         return carSessionRepository.loadByUser(user);
+    }
+
+    private void checkOrThrowSession(CarSessionEntity carSession){
+        CarRepository carRepository = getCarRepository();
+        CarEntity car = carSession.getCar();
+
+        LocalDate sessionEndAt = carSession.getEndAt();
+        LocalDate sessionStartAt = carSession.getStartAt();
+        boolean isAvailable = carRepository.isAvailable(car, sessionStartAt, sessionEndAt);
+
+        if (!isAvailable){
+            throw new BookException("Car is not available");
+        }
+
+        LocalDate now = LocalDate.now();
+        if (sessionStartAt.isBefore(now)){
+            throw new BookException("The entered startDate is less than the current one");
+        }
+        if (sessionEndAt.isBefore(sessionStartAt)){
+            throw new BookException("End date is less than start date");
+        }
+
+        DayOfWeek startDay = sessionStartAt.getDayOfWeek();
+        DayOfWeek endDay = sessionEndAt.getDayOfWeek();
+
+        if (startDay.equals(DayOfWeek.SATURDAY) || startDay.equals(DayOfWeek.SUNDAY)){
+            throw new BookException("Session can only start on weekdays");
+        }
+
+        if (endDay.equals(DayOfWeek.SATURDAY) || endDay.equals(DayOfWeek.SUNDAY)){
+            throw new BookException("The end of the session is only possible on a weekday");
+        }
+
+        checkPeriod(sessionStartAt, sessionEndAt);
+    }
+
+    private void checkPeriod(LocalDate startAt, LocalDate endAt){
+        int bookPeriodInDays = (int) ChronoUnit.DAYS.between(startAt, endAt) + 1;
+        if (bookPeriodInDays > getMaxBookDays()){
+            throw new BookException("Exceeded maximum rental period");
+        }
+    }
+
+    private int getMaxBookDays(){
+        if (null == maxBookDays){
+            String rawVal = PropertyReader.get(MAX_BOOK_DAYS_KEY, "30");
+            maxBookDays = Integer.parseInt(rawVal);
+        }
+        return maxBookDays;
     }
 
     private CarSessionRepository getCarSessionRepository() {

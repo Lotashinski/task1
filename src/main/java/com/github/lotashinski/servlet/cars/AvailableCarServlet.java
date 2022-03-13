@@ -4,6 +4,7 @@ import com.github.lotashinski.dto.AvailableCarSetDto;
 import com.github.lotashinski.service.json.JsonConverter;
 import com.github.lotashinski.service.paramconverter.LocalDataConverter;
 import com.github.lotashinski.service.paramconverter.Pagination;
+import com.github.lotashinski.service.property.PropertyReader;
 import com.github.lotashinski.service.res.AvailableCarSet;
 import com.github.lotashinski.service.res.CarService;
 import com.github.lotashinski.service.res.ServiceFactory;
@@ -22,6 +23,7 @@ public final class AvailableCarServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         ServiceFactory serviceFactory = (ServiceFactory) req.getAttribute(ServletConstants.SERVICE_FACTORY);
         CarService carService = serviceFactory.getCarService();
 

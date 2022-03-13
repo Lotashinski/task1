@@ -1,7 +1,5 @@
 package com.github.lotashinski.entity;
 
-import com.google.gson.annotations.Expose;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +7,7 @@ import java.util.List;
 @Entity
 public class UserEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
 

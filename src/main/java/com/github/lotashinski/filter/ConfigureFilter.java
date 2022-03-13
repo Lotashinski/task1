@@ -1,6 +1,7 @@
 package com.github.lotashinski.filter;
 
 import com.github.lotashinski.dto.ExceptionDto;
+import com.github.lotashinski.entity.RolesEnum;
 import com.github.lotashinski.entity.UserEntity;
 import com.github.lotashinski.filter.exception.ForbiddenException;
 import com.github.lotashinski.repository.RepositoryFactory;
@@ -16,10 +17,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @WebFilter(urlPatterns = {"/*"})
 public final class ConfigureFilter implements Filter {
-
     private static final Logger logger = LogManager.getRootLogger();
 
     @Override
@@ -52,6 +54,11 @@ public final class ConfigureFilter implements Filter {
                 logger.debug("Add userEntity from HttpSession in current Hibernate session");
                 repositoryFactory.getSession().merge(user);
                 logger.debug("Set attribute " + ServletConstants.USER);
+
+                boolean isAdminResource = isAdminResource(servletPath);
+                if (isAdminResource && !user.getRoles().contains(RolesEnum.ROLE_ADMIN)){
+                    throw new ForbiddenException("Only for admin");
+                }
                 servletRequest.setAttribute(ServletConstants.USER, user);
             }else {
                 logger.debug("HttpSession user not found. Check access for anon anonymous");
@@ -80,5 +87,9 @@ public final class ConfigureFilter implements Filter {
         eDto.setMessage(e.getMessage());
         eDto.setStatus(500);
         return eDto;
+    }
+
+    private boolean isAdminResource(String path){
+        return path.contains("admin");
     }
 }

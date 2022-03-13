@@ -1,7 +1,6 @@
 package com.github.lotashinski.repository.impl;
 
 import com.github.lotashinski.entity.CarEntity;
-import com.github.lotashinski.entity.CarSessionEntity;
 import com.github.lotashinski.repository.CarRepository;
 import org.hibernate.Session;
 
